@@ -35,7 +35,7 @@ export default class SignUp extends React.Component {
           style={styles.input}
           placeholder='Username'
           autoCapitalize="none"
-          placeholderTextColor='white'
+          placeholderTextColor='grey'
           onChangeText={val => this.onChangeText('username', val)}
         />
         <TextInput
@@ -43,14 +43,14 @@ export default class SignUp extends React.Component {
           placeholder='Password'
           secureTextEntry={true}
           autoCapitalize="none"
-          placeholderTextColor='white'
+          placeholderTextColor='grey'
           onChangeText={val => this.onChangeText('password', val)}
         />
         <TextInput
           style={styles.input}
           placeholder='Email'
           autoCapitalize="none"
-          placeholderTextColor='white'
+          placeholderTextColor='grey'
           keyboardType='email-address'
           onChangeText={val => this.onChangeText('email', val)}
         />
@@ -58,15 +58,18 @@ export default class SignUp extends React.Component {
           style={styles.input}
           placeholder='Phone Number'
           autoCapitalize="none"
-          placeholderTextColor='white'
+          placeholderTextColor='grey'
           keyboardType="phone-pad"
           onChangeText={val => this.onChangeText('phone_number', val)}
         />
         <Button
           buttonStyle={
               {
-                  backgroundColor: '#2022df',
+                  backgroundColor: '#6ea8a1',
                   margin: 10,
+                  borderRadius: 14,
+                  paddingLeft: 20,
+                  paddingRight: 20,
               }
           }
           type="solid"
@@ -82,13 +85,15 @@ const styles = StyleSheet.create({
   input: {
     width: 350,
     height: 55,
-    backgroundColor: '#6ea8a1',
+    backgroundColor: 'white',
     margin: 10,
     padding: 8,
-    color: 'white',
+    color: 'black',
     borderRadius: 14,
+    borderColor: 'black',
     fontSize: 18,
     fontWeight: '500',
+    
   },
   container: {
     flex: 1,
