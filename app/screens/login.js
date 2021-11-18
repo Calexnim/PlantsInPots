@@ -1,5 +1,5 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
+import axios from 'axios';
 import { 
   View,
   TextInput,
@@ -11,28 +11,42 @@ import {
   Button,
 } from 'react-native-elements'
 import externalStyle from '../style/style';
-import Register from './register';
 import globals from '../modules/globals.js';
 
 
-const Stack = createNativeStackNavigator();
-// export function Account() {
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator>
-//         <Stack.Screen name="Register" component={Register} />
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   )
-// }
 export default class Login extends Component {
-  state = {
-    email: '', password: ''
+  constructor(){
+    super();
+    this.state = {email:'', password:''}
   }
+  // state = {
+  //   email: '', password: ''
+  // }
   onChangeText = (key, val) => {
     this.setState({[key]: val})
   }
-  
+  login = async () => {
+    const {
+      email,
+      password,
+    } = this.state
+    console.log("Login")
+  //Post email & password get token
+  await axios({
+      method: 'post',
+      url: 'http://192.168.0.148:8000/api/account/login',
+      data: {
+        username: email,
+        password: password,
+      }
+    }).then(function (response) {
+      console.log(response.data);
+    }).catch((error) => {
+      console.error('error', error);
+    });
+  }
+
+
   render() {
     return (
       <View style={externalStyle.container}>
@@ -55,6 +69,7 @@ export default class Login extends Component {
           type="solid"
           title='Login'
           onPress={() => {
+            this.login();
             globals.setLogin();
           }}
         />
@@ -63,7 +78,7 @@ export default class Login extends Component {
           buttonStyle={externalStyle.button}
           type="solid"
           title="Register"
-          onPress={() => this.props.navigation.navigate('Register')}
+          onPress={() => this.props.navigation.navigate('Register')}         
         />
       </View>
     );
