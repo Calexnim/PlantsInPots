@@ -1,0 +1,6 @@
+var setLogin = () => {
+
+}
+var setLogout = () => {
+    
+}
