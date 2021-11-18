@@ -1,16 +1,15 @@
 // SignUp.js
-import { NavigationContainer } from '@react-navigation/native'
 import React from 'react'
 import {
   View,
   TextInput,
-  StyleSheet
 } from 'react-native'
 import {
   Button,
 } from 'react-native-elements'
+import externalStyle from '../style/style'
 
-export default class SignUp extends React.Component {
+export default class Register extends React.Component {
   state = {
     username: '', password: '', email: '', phone_number: ''
   }
@@ -30,16 +29,16 @@ export default class SignUp extends React.Component {
  
   render() {
     return (
-      <View style={styles.container}>
+      <View style={externalStyle.container}>
         <TextInput
-          style={styles.input}
+          style={externalStyle.input}
           placeholder='Username'
           autoCapitalize="none"
           placeholderTextColor='grey'
           onChangeText={val => this.onChangeText('username', val)}
         />
         <TextInput
-          style={styles.input}
+          style={externalStyle.input}
           placeholder='Password'
           secureTextEntry={true}
           autoCapitalize="none"
@@ -47,7 +46,7 @@ export default class SignUp extends React.Component {
           onChangeText={val => this.onChangeText('password', val)}
         />
         <TextInput
-          style={styles.input}
+          style={externalStyle.input}
           placeholder='Email'
           autoCapitalize="none"
           placeholderTextColor='grey'
@@ -55,7 +54,7 @@ export default class SignUp extends React.Component {
           onChangeText={val => this.onChangeText('email', val)}
         />
         <TextInput
-          style={styles.input}
+          style={externalStyle.input}
           placeholder='Phone Number'
           autoCapitalize="none"
           placeholderTextColor='grey'
@@ -63,15 +62,7 @@ export default class SignUp extends React.Component {
           onChangeText={val => this.onChangeText('phone_number', val)}
         />
         <Button
-          buttonStyle={
-              {
-                  backgroundColor: '#6ea8a1',
-                  margin: 10,
-                  borderRadius: 14,
-                  paddingLeft: 20,
-                  paddingRight: 20,
-              }
-          }
+          buttonStyle={externalStyle.button}
           type="solid"
           title='Sign Up'
           onPress={this.signUp}
@@ -81,23 +72,3 @@ export default class SignUp extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
-  input: {
-    width: 350,
-    height: 55,
-    backgroundColor: 'white',
-    margin: 10,
-    padding: 8,
-    color: 'black',
-    borderRadius: 14,
-    borderColor: 'black',
-    fontSize: 18,
-    fontWeight: '500',
-    
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-})
