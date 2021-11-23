@@ -1,4 +1,5 @@
 import React, { Component, useEffect } from 'react';
+import Toast from 'react-native-toast-message';
 import axios from 'axios';
 import { 
   View,
@@ -12,7 +13,7 @@ import {
 } from 'react-native-elements'
 import externalStyle from '../style/style';
 import globals from '../modules/globals.js';
-
+import constants from '../modules/constants.js';
 
 export default class Login extends Component {
   constructor(){
@@ -31,18 +32,22 @@ export default class Login extends Component {
       password,
     } = this.state
     console.log("Login")
-  //Post email & password get token
+  // Post email & password get token
   await axios({
       method: 'post',
-      url: 'http://192.168.0.148:8000/api/account/login',
+      url: constants.URL+'/api/account/login',
       data: {
         username: email,
         password: password,
       }
     }).then(function (response) {
       console.log(response.data);
+      globals.setLogin();
     }).catch((error) => {
-      console.error('error', error);
+      Toast.show({
+        type: 'error',
+        text1: error.response.data["non_field_errors"][0],
+      })
     });
   }
 
@@ -70,7 +75,6 @@ export default class Login extends Component {
           title='Login'
           onPress={() => {
             this.login();
-            globals.setLogin();
           }}
         />
         <Text>No Account? Register here</Text>
