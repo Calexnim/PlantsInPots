@@ -12,10 +12,10 @@ import { renderNode } from 'react-native-elements/dist/helpers';
 import globals from './app/modules/globals.js';
 import { Text } from 'react-native';
 import Profile from './app/screens/profile.js';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-
 // export function Account() {
 //   return (
 //     <NavigationContainer>
@@ -74,6 +74,7 @@ export default class App extends Component{
           <Tab.Screen name="ProfileStack" component={ProfileStack} options={{title: "Profile", headerShown: false }}/>
         }
       </Tab.Navigator>
+      <Toast />
     </NavigationContainer>
     );
   }
