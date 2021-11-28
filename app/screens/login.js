@@ -45,6 +45,7 @@ export default class Login extends Component {
     }).catch((error) => {
       Toast.show({
         type: 'error',
+        position: 'bottom',
         text1: error.response.data["non_field_errors"][0],
       })
     });
