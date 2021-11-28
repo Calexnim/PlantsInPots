@@ -31,7 +31,6 @@ export default class Login extends Component {
       email,
       password,
     } = this.state
-    console.log("Login")
   // Post email & password get token
   await axios({
       method: 'post',
