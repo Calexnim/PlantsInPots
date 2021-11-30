@@ -14,6 +14,7 @@ import {
 import externalStyle from '../style/style';
 import globals from '../modules/globals.js';
 import constants from '../modules/constants.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class Login extends Component {
   constructor(){
@@ -41,7 +42,18 @@ export default class Login extends Component {
       }
     }).then(function (response) {
       console.log(response.data);
-      globals.setLogin();
+      // Store token using AsyncStorage
+      const token = JSON.stringify(response.data)
+      try {
+        AsyncStorage.setItem('token', token).then(
+          () => console.log('token saved')
+        ).catch((e) => {
+          console.log(e);
+        })
+        globals.setLogin();
+      } catch (e){
+        console.log(e)
+      }
     }).catch((error) => {
       Toast.show({
         type: 'error',
