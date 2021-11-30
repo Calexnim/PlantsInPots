@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { SafeAreaView, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import globals from '../modules/globals.js';
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -15,9 +16,18 @@ class Home extends Component {
  componentDidUpdate(){
     console.log("UPdate");
  }
- componentDidMount(){
-    console.log("Mount");
- }
+ componentDidMount = async() => {
+  try {
+    const value = await AsyncStorage.getItem('token')
+    if (value !== null){
+      console.log(value != null ? JSON.parse(value): null)
+      globals.setLogin();
+    }
+  } catch (e){
+    console.log(e);
+  }
+}
+
   render() {
     return (
       <SafeAreaView>
