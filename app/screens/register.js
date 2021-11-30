@@ -39,6 +39,7 @@ export default class Register extends React.Component {
         }
       }).then(function (response) {
         console.log(response.data);
+        // Check if the account is created and token is return
         if (response.data.token) {
           Toast.show({
             type: 'success',
@@ -56,6 +57,7 @@ export default class Register extends React.Component {
         }
       }).catch((error) => {
         console.log(error.response.data.password);
+        // Display Error for different password
         Toast.show({
           type: 'error',
           position: 'bottom',
