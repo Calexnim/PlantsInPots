@@ -3,6 +3,7 @@ import { SafeAreaView, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import globals from '../modules/globals.js';
+import externalStyle from '../style/style.js';
 class Home extends Component {
     constructor(props) {
         super(props);
@@ -11,10 +12,10 @@ class Home extends Component {
         }
     }
  componentWillUnmount(){
-    console.log("UnMount");
+    console.log("Will Unmount");
  }
  componentDidUpdate(){
-    console.log("UPdate");
+    console.log("Did Update");
  }
  componentDidMount = async() => {
   try {
@@ -30,15 +31,11 @@ class Home extends Component {
 
   render() {
     return (
-      <SafeAreaView>
+      <View style={externalStyle.container}>
+        <View>
           <Text>{this.state.cde}</Text>
-            <Button title="test" 
-                onPress={() => this.props.navigation.navigate('Login')}
-            />
-            <Button title="test1" 
-                onPress={() => this.setState({cde: "after change"})}
-            />
-      </SafeAreaView>  
+        </View>
+      </View>  
     );
   }
 }
