@@ -65,7 +65,7 @@ export default class App extends Component{
     return(
       <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Home" component={Home}  />
         <Tab.Screen name="Notification" component={Notification} />
         <Tab.Screen name="Cart" component={Cart} />
         {
