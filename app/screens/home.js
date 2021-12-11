@@ -7,12 +7,15 @@ import externalStyle from '../style/style.js';
 import { color } from 'react-native-elements/dist/helpers';
 import { StyleSheet } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
+import axios from 'axios';
+import constants from '../modules/constants.js';
 
 class Home extends Component {
   constructor(props) {
       super(props);
       this.state = {
         search: "",
+        category: [],
       }
   }
  componentWillUnmount(){
@@ -28,6 +31,21 @@ class Home extends Component {
       console.log(value != null ? JSON.parse(value): null)
       globals.setLogin();
     }
+    await axios({
+      method: 'get',
+      url: constants.URL+'/api/category',
+    }).then((response) => {
+        var category = [];
+        for (let i in response.data){
+          // this.element["label"] = response.data[i].name
+          // this.element["value"] = response.data[i].id
+          category.push({label : response.data[i].name, value : response.data[i].id});
+          // console.log(response.data[i].name)
+        }
+        this.setState({
+          category : category
+        })
+    })
   } catch (e){
     console.log(e);
   }
@@ -35,6 +53,10 @@ class Home extends Component {
 updateSearch = (search) => {
   this.setState({ search });
 };
+
+searchCategory = (value) => {
+  console.log(value)
+}
   render() {
     const { search } = this.state;
     return (
@@ -82,15 +104,11 @@ updateSearch = (search) => {
                 borderColor: 'blue',
                 color: 'black',
               }}
-              onValueChange={(value) => console.log(value)}
+              onValueChange={(value) => this.searchCategory(value)}
               placeholder={
                 {label: 'Filter'}
               }
-              items = {[
-                { label: 'Football', value: 'football' },
-                { label: 'Baseball', value: 'baseball' },
-                { label: 'Hockey', value: 'hockey' },
-              ]}
+              items = {this.state.category}
             />
         </View>
       </View>  
