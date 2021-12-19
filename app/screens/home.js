@@ -36,12 +36,11 @@ class Home extends Component {
       url: constants.URL+'/api/category',
     }).then((response) => {
         var category = [];
+        // store name: id object into category array
         for (let i in response.data){
-          // this.element["label"] = response.data[i].name
-          // this.element["value"] = response.data[i].id
           category.push({label : response.data[i].name, value : response.data[i].id});
-          // console.log(response.data[i].name)
         }
+        // set state for category 
         this.setState({
           category : category
         })
@@ -62,53 +61,42 @@ searchCategory = (value) => {
     return (
       <View style={{flex: 1 }}>
         <View style={styles.topContainer}>
-            {/* <TextInput
-              style={{
-                width: 350,
-                margin: 14,
-                padding: 5,
-                backgroundColor: 'white',
-                borderRadius: 14,
-              }}
-              placeholder='Search'
-              autoCapitalize='none'
-              placeholderTextColor='grey'
-            /> */}
-            <SearchBar
-              placeholder="Search.."
-              onChangeText={this.updateSearch}
-              value={search}
-              containerStyle={{
-                backgroundColor: 'white',
-                borderRadius: 14,
-              }}
-              inputStyle={{
-                backgroundColor: 'white',
-                color: 'black',
-              }}
-              leftIconContainerStyle={{
-                backgroundColor: 'white',
-              }}
-              rightIconContainerStyle={{
-                backgroundColor: 'white',
-              }}
-              inputContainerStyle={{
-                backgroundColor: 'white',
-              }}
-              lightTheme='false'
-            />
-            <RNPickerSelect
-              style={{
-                backgroundColor: 'white',
-                margin: 10,
-                borderColor: 'blue',
-                color: 'black',
-              }}
-              onValueChange={(value) => this.searchCategory(value)}
-              placeholder={
-                {label: 'Filter'}
-              }
-              items = {this.state.category}
+          <SearchBar
+            placeholder="Search.."
+            onChangeText={this.updateSearch}
+            value={search}
+            containerStyle={{
+              backgroundColor: 'white',
+              borderRadius: 14,
+            }}
+            inputStyle={{
+              backgroundColor: 'white',
+              color: 'black',
+            }}
+            leftIconContainerStyle={{
+              backgroundColor: 'white',
+            }}
+            rightIconContainerStyle={{
+              backgroundColor: 'white',
+            }}
+            inputContainerStyle={{
+              backgroundColor: 'white',
+            }}
+            lightTheme='false'
+          />
+          <RNPickerSelect
+            style={{
+              backgroundColor: 'white',
+              margin: 10,
+              borderColor: 'blue',
+              color: 'black',
+            }}
+            onValueChange={(value) => this.searchCategory(value)}
+            placeholder={
+              {label: 'Filter'}
+            }
+            // Populate category in items
+            items = {this.state.category}
             />
         </View>
       </View>  
