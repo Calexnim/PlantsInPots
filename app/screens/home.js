@@ -1,23 +1,31 @@
 import React, { Component } from 'react';
-import { SafeAreaView, Text, TextInput, View } from 'react-native';
+import { SafeAreaView, Text, TextInput, View, FlatList, StyleSheet } from 'react-native';
 import { Button, SearchBar } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import globals from '../modules/globals.js';
 import externalStyle from '../style/style.js';
 import { color } from 'react-native-elements/dist/helpers';
-import { StyleSheet } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 import axios from 'axios';
 import constants from '../modules/constants.js';
+import Item from '../modules/product_item.js';
 
-class Home extends Component {
+export default class Home extends Component {
   constructor(props) {
       super(props);
       this.state = {
         search: "",
         category: [],
+        products: [],
       }
   }
+  renderItem = ({ item }) => (
+    <Item 
+      image={item.image}
+      name={item.name}
+      price={item.price}
+    />
+  );
  componentWillUnmount(){
     console.log("Will Unmount");
  }
@@ -48,6 +56,18 @@ class Home extends Component {
   } catch (e){
     console.log(e);
   }
+  // GET all product request
+  try{
+    await axios({
+      method: 'get',
+      url: constants.URL+'/api/product'
+    }).then((response) => {
+      this.setState({products: response.data});
+      console.log(this.state.products)
+    })
+  } catch (e){
+    console.log(e);
+  }
 }
 updateSearch = (search) => {
   this.setState({ search });
@@ -58,8 +78,8 @@ searchCategory = (value) => {
 }
   render() {
     const { search } = this.state;
-    return (
-      <View style={{flex: 1 }}>
+    const getHeader = () => {
+      return (
         <View style={styles.topContainer}>
           <SearchBar
             placeholder="Search.."
@@ -99,10 +119,23 @@ searchCategory = (value) => {
             items = {this.state.category}
             />
         </View>
-      </View>  
+      );
+    };
+    return (
+      <SafeAreaView style={{flex: 1 }}>
+        <FlatList
+          style = {styles.productItem}
+          data={this.state.products}
+          renderItem={item => this.renderItem(item)}
+          horizontal={false}
+          numColumns={2}
+          ListHeaderComponent={getHeader}
+        />
+      </SafeAreaView>  
     );
   }
 }
+
 const styles = StyleSheet.create({
   topContainer: {
     backgroundColor: 'white',
@@ -110,5 +143,10 @@ const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 15,
   },
+  productContainer: {
+    backgroundColor: 'white',
+    margin: 10,
+    flex: 1,
+    flexDirection: 'row'
+  },
 });
-export default Home;
