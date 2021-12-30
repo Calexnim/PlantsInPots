@@ -19,11 +19,14 @@ export default class Home extends Component {
         products: [],
       }
   }
+  // Render Product Item
   renderItem = ({ item }) => (
     <Item 
+      id={item.id}
       image={item.image}
       name={item.name}
       price={item.price}
+      // onPress={() => setSelectedId(item.id)}
     />
   );
  componentWillUnmount(){

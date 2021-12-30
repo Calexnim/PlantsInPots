@@ -1,16 +1,21 @@
 import React from 'react';
-import { Text, Image, View, StyleSheet } from 'react-native';
+import { Text, Image, View, StyleSheet, TouchableOpacity } from 'react-native';
 import constants from './constants';
 import FastImage from 'react-native-fast-image';
-const Item = ({image, name, price}) => {
+const Item = ({id, image, name, price}) => {
+    const pressHandler = (id) => {
+        console.log(id)
+    }
   return (
     <View style={styles.item}>
-        <FastImage
-            style={styles.image}
-            source={{uri: constants.URL+image}}
-        />
-        <Text style={styles.text}>{name}</Text>
-        <Text style={styles.text}>{price}</Text>
+        <TouchableOpacity onPress={() => pressHandler(id)}>
+            <FastImage
+                style={styles.image}
+                source={{uri: constants.URL+image}}
+            />
+            <Text style={styles.text}>{name}</Text>
+            <Text style={styles.text}>{price}</Text>
+        </TouchableOpacity>
     </View>
   );
 }
