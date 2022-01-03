@@ -14,7 +14,7 @@ const Item = ({id, image, name, price}) => {
                 source={{uri: constants.URL+image}}
             />
             <Text style={styles.text}>{name}</Text>
-            <Text style={styles.text}>{price}</Text>
+            <Text style={styles.text}>RM {price}</Text>
         </TouchableOpacity>
     </View>
   );
