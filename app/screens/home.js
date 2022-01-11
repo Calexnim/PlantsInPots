@@ -3,12 +3,9 @@ import { SafeAreaView, Text, TextInput, View, FlatList, StyleSheet } from 'react
 import { Button, SearchBar } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import globals from '../modules/globals.js';
-import externalStyle from '../style/style.js';
-import { color } from 'react-native-elements/dist/helpers';
 import RNPickerSelect from 'react-native-picker-select';
 import axios from 'axios';
 import constants from '../modules/constants.js';
-import Item from '../modules/product_item.js';
 import ProductList from '../modules/product_render.js';
 
 export default class Home extends Component {
