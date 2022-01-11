@@ -11,7 +11,7 @@ const Item = ({id, image, name, price}) => {
         <TouchableOpacity onPress={() => pressHandler(id)}>
             <FastImage
                 style={styles.image}
-                source={{uri: constants.URL+image}}
+                source={{uri: image}}
             />
             <Text style={styles.text}>{name}</Text>
             <Text style={styles.text}>RM {price}</Text>
