@@ -11,15 +11,24 @@ const ProductList = (props) => {
       // onPress={() => setSelectedId(item.id)}
     />
     );
-    return (
-        <FlatList
-        //   style = {styles.productItem}
-            data={props.products}
-            renderItem={item => this.renderItem(item)}
-            horizontal={false}
-            numColumns={2}
-            ListHeaderComponent={props.header}
-        />
-    );
+    if (props.products) {
+        return (
+            <FlatList
+            //   style = {styles.productItem}
+                data={props.products}
+                renderItem={item => this.renderItem(item)}
+                horizontal={false}
+                numColumns={2}
+                ListHeaderComponent={props.header}
+            />
+        );
+    }
+    else{
+        return(
+            <Text styles={{color: 'black'}}>
+                No products available
+            </Text>
+        );
+    }
 }
 export default ProductList;
