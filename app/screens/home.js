@@ -15,7 +15,7 @@ export default class Home extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        search: "",
+        search_value: "",
         category: [],
         products: [],
       }
@@ -73,8 +73,20 @@ export default class Home extends Component {
     console.log(error);
   }
 }
-updateSearch = (search) => {
-  this.setState({ search });
+searchProduct = async(search_value) => {
+  this.setState({ search_value });
+  console.log(search_value)
+  try{
+    await axios({
+      method: 'get',
+      url: constants.URL+'/api/product/?search='+search_value
+    }).then((response) => {
+      this.setState({products: response.data});
+      console.log(this.state.products)
+    })
+  } catch(error){
+    console.log(error.response.data);
+  }
 };
 
 searchCategory = async(value) => {
@@ -102,19 +114,20 @@ searchCategory = async(value) => {
       })
     } catch (error){
       console.log(error.response.data)
+      this.setState({products: []});
     }
   }
   console.log(value);
 }
   render() {
-    const { search } = this.state;
+    const { search_value } = this.state;
     const getHeader = () => {
       return (
         <View style={styles.topContainer}>
           <SearchBar
             placeholder="Search.."
-            onChangeText={this.updateSearch}
-            value={search}
+            onChangeText={this.searchProduct}
+            value={search_value}
             containerStyle={{
               backgroundColor: 'white',
               borderRadius: 14,
