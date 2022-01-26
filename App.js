@@ -8,11 +8,13 @@ import SignUp from './app/screens/register.js';
 import Notification from './app/screens/notification.js';
 import Cart from './app/screens/cart.js';
 import Register from './app/screens/register.js';
+import Product from './app/screens/single_product.js';
 import { renderNode } from 'react-native-elements/dist/helpers';
 import globals from './app/modules/globals.js';
 import { Text } from 'react-native';
 import Profile from './app/screens/profile.js';
 import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import { Icon } from 'react-native-elements/dist/icons/Icon';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -64,8 +66,33 @@ export default class App extends Component{
   render() {
     return(
       <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Home" component={Home}  />
+      <Tab.Navigator 
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'HomeStack') {
+              iconName = 'home'
+            } else if (route.name === 'Notification') {
+              iconName = 'bell'
+            } else if (route.name === 'Cart') {
+              iconName = 'shopping-cart'
+            } else if (route.name === 'LoginStack' || route.name === 'ProfileStack') {
+              iconName = 'user'
+            } 
+            return <Icon
+              name={iconName}
+              type='font-awesome'
+              color={color}
+              size={size}
+            />;
+          },
+          tabBarActiveTintColor: 'tomato',
+          tabBarInactiveTintColor: 'gray',
+        })}
+      >
+        {/* <Tab.Screen name="Home" component={Home}  /> */}
+        <Tab.Screen name="HomeStack" component={HomeStack} options={{title: "Home", headerShown: false}}/>
         <Tab.Screen name="Notification" component={Notification} />
         <Tab.Screen name="Cart" component={Cart} />
         {
@@ -79,6 +106,15 @@ export default class App extends Component{
     );
   }
 }
+function HomeStack(){
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={Home}/>
+      <Stack.Screen name="Product" component={Product} />
+    </Stack.Navigator>
+  )
+}
+
 function LoginStack(){
   return (
       <Stack.Navigator>
