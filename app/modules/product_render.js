@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react';
 import {SafeAreaView, FlatList, Text, View, StyleSheet, TouchableOpacity } from 'react-native';
 import FastImage from 'react-native-fast-image';
+import { useNavigation } from '@react-navigation/native';
 // import Item from './product_item';
 const Item = ({id, image, name, price}) => {
+    const navigation = useNavigation()
     const pressHandler = (id) => {
         console.log(id)
     }
   return (
     <View style={styles.item}>
-        <TouchableOpacity onPress={() => pressHandler(id)}>
+        <TouchableOpacity onPress={() => navigation.navigate('Product', { something: 'josh' })}>
             <FastImage
                 style={styles.image}
                 source={{uri: image}}
@@ -21,13 +23,15 @@ const Item = ({id, image, name, price}) => {
 }
 
 const ProductList = (props) => {
-    renderItem = ({ item }) => (
+    if (props.products.length % 2 != 0){
+        props.products.push({empty: true})
+    }
+    renderItem = ({ item }) => item.empty == true? <View style={styles.emptyItem}/> :(
     <Item 
       id={item.id}
       image={item.image}
       name={item.name}
       price={item.price}
-      // onPress={() => setSelectedId(item.id)}
     />
     );
     if (props.products) {
@@ -53,6 +57,13 @@ const ProductList = (props) => {
 const styles = StyleSheet.create({
     item: {
         backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        margin: 5,
+        flex: 1,
+        justifyContent: 'center',
+    },
+    emptyItem: {
         padding: 20,
         borderRadius: 10,
         margin: 5,
