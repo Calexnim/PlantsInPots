@@ -3,14 +3,17 @@ import {SafeAreaView, FlatList, Text, View, StyleSheet, TouchableOpacity } from 
 import FastImage from 'react-native-fast-image';
 import { useNavigation } from '@react-navigation/native';
 // import Item from './product_item';
-const Item = ({id, image, name, price}) => {
+const Item = ({id, image, name, price, description}) => {
     const navigation = useNavigation()
-    const pressHandler = (id) => {
-        console.log(id)
-    }
   return (
     <View style={styles.item}>
-        <TouchableOpacity onPress={() => navigation.navigate('Product', { something: 'josh' })}>
+        <TouchableOpacity onPress={() => navigation.navigate('Product', {
+            id: id,
+            image: image,
+            name: name,
+            price: price,
+            description: description,
+        })}>
             <FastImage
                 style={styles.image}
                 source={{uri: image}}
@@ -23,16 +26,19 @@ const Item = ({id, image, name, price}) => {
 }
 
 const ProductList = (props) => {
+    // Check if the products is odd number
     if (props.products.length % 2 != 0){
         props.products.push({empty: true})
     }
+    // Push an empty View if product odd number 
     renderItem = ({ item }) => item.empty == true? <View style={styles.emptyItem}/> :(
-    <Item 
-      id={item.id}
-      image={item.image}
-      name={item.name}
-      price={item.price}
-    />
+        <Item 
+            id={item.id}
+            image={item.image}
+            name={item.name}
+            price={item.price}
+            description={item.description}
+        />
     );
     if (props.products) {
         return (
@@ -43,14 +49,8 @@ const ProductList = (props) => {
                 horizontal={false}
                 numColumns={2}
                 ListHeaderComponent={props.header}
+                columnWrapperStyle={{justifyContent: 'space-between'}}
             />
-        );
-    }
-    else{
-        return(
-            <Text styles={{color: 'black'}}>
-                No products available
-            </Text>
         );
     }
 }
@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
     text: {
         marginTop: 10,
         alignSelf: 'center',
+        color: 'black',
+        fontSize: 15,
     },
 })
 export default ProductList;
