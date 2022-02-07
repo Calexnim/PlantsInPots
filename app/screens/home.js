@@ -31,7 +31,7 @@ export default class Home extends Component {
     console.log("Will Unmount");
  }
  componentDidUpdate(){
-    console.log("Did Update");
+    // console.log("Did Update");
  }
  componentDidMount = async() => {
   try {
@@ -64,7 +64,7 @@ export default class Home extends Component {
       url: constants.URL+'/api/product'
     }).then((response) => {
       this.setState({products: response.data});
-      console.log(this.state.products)
+      // console.log(this.state.products)
     })
   } catch (error){
     console.log(error);
@@ -72,14 +72,14 @@ export default class Home extends Component {
 }
 searchProduct = async(search_value) => {
   this.setState({ search_value });
-  console.log(search_value)
+  // console.log(search_value)
   try{
     await axios({
       method: 'get',
       url: constants.URL+'/api/product/?search='+search_value
     }).then((response) => {
       this.setState({products: response.data});
-      console.log(this.state.products)
+      // console.log(this.state.products)
     })
   } catch(error){
     console.log(error.response.data);
@@ -94,7 +94,7 @@ searchCategory = async(value) => {
         url: constants.URL+'/api/product'
       }).then((response) => {
         this.setState({products: response.data});
-        console.log(this.state.products)
+        // console.log(this.state.products)
       })
     } catch (error){
       console.log(error);
@@ -107,14 +107,14 @@ searchCategory = async(value) => {
         url: constants.URL+'/api/product/?category='+value
       }).then((response) => {
         this.setState({products: response.data});
-        console.log(this.state.products)
+        // console.log(this.state.products)
       })
     } catch (error){
       console.log(error.response.data)
       this.setState({products: []});
     }
   }
-  console.log(value);
+  // console.log(value);
 }
   render() {
     const { search_value } = this.state;
