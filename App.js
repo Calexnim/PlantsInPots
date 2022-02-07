@@ -66,31 +66,31 @@ export default class App extends Component{
   render() {
     return(
       <NavigationContainer>
-      <Tab.Navigator 
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+        <Tab.Navigator 
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused, color, size }) => {
+              let iconName;
 
-            if (route.name === 'HomeStack') {
-              iconName = 'home'
-            } else if (route.name === 'Notification') {
-              iconName = 'bell'
-            } else if (route.name === 'Cart') {
-              iconName = 'shopping-cart'
-            } else if (route.name === 'LoginStack' || route.name === 'ProfileStack') {
-              iconName = 'user'
-            } 
-            return <Icon
-              name={iconName}
-              type='font-awesome'
-              color={color}
-              size={size}
-            />;
-          },
-          tabBarActiveTintColor: 'tomato',
-          tabBarInactiveTintColor: 'gray',
-        })}
-      >
+              if (route.name === 'HomeStack') {
+                iconName = 'home'
+              } else if (route.name === 'Notification') {
+                iconName = 'bell'
+              } else if (route.name === 'Cart') {
+                iconName = 'shopping-cart'
+              } else if (route.name === 'LoginStack' || route.name === 'ProfileStack') {
+                iconName = 'user'
+              } 
+              return <Icon
+                name={iconName}
+                type='font-awesome'
+                color={color}
+                size={size}
+              />;
+            },
+            tabBarActiveTintColor: '#6ea8a1',
+            tabBarInactiveTintColor: 'gray',
+          })}
+        >
         {/* <Tab.Screen name="Home" component={Home}  /> */}
         <Tab.Screen name="HomeStack" component={HomeStack} options={{title: "Home", headerShown: false}}/>
         <Tab.Screen name="Notification" component={Notification} />
