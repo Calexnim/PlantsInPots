@@ -28,7 +28,7 @@ const Product = (props) => {
                     setPots(pot);
                 });
             } catch(error){
-                console.log(error);
+                //console.log(error);
             }
             try{
                 await axios({
@@ -42,7 +42,7 @@ const Product = (props) => {
                     setFertilizers(fertilizer);
                 });
             } catch(error){
-                console.log(error);
+                //console.log(error);
             }
         }
         fetchAccessories();
@@ -65,85 +65,88 @@ const Product = (props) => {
         try{
             var user_id = await AsyncStorage.getItem('user_id')
         } catch(error){
-            console.log(error)
+            //console.log(error)
         }
-        try{
+        if (user_id) {
             try{
-                await axios({
-                    method: 'get',
-                    url: constants.URL+'/api/cart/'+ user_id
-                }).then((response) => {
-                    
-                    if (response.data.cart_item){
-                        hasCartItem = true
-                    }
-                });
-            } catch (error){
-                console.log(error.response.data)
-            }
-            // Send different request method according to having pre-existing cart items
-            var data = {
-                "cart_item":[
-                    {
-                        "product": props.route.params?.id,
-                        "pot": potID,
-                        "fertilizer": fertilizerID
-                    }
-                ],
-                "user": user_id
-            }
-            try{
-                if (hasCartItem){
-                    try{
-                        await axios({
-                            method: 'put',
-                            url: constants.URL+'/api/cart/'+ user_id + "/",
-                            data: data
-                        }).then((response) => {
-                            Toast.show({
-                                type: 'success', 
-                                position: 'top', 
-                                text1: 'Added to Cart!', 
-                                visibilityTime: 3000,
-                            });
-                        });
-                    } catch(error){
-                        console.log(error)
-                    }
+                try{
+                    await axios({
+                        method: 'get',
+                        url: constants.URL+'/api/cart/'+ user_id
+                    }).then((response) => {
+                        
+                        if (response.data.cart_item){
+                            hasCartItem = true
+                        }
+                    });
+                } catch (error){
+                    //console.log(error.response.data)
                 }
-                else {
-                    try{
-                        await axios({
-                            method: 'post',
-                            url: constants.URL+'/api/cart/',
-                            data: data
-                        }).then((response) => {
-                            Toast.show({ 
-                                type: 'success', 
-                                position: 'top', 
-                                text1: 'Added to Cart!', 
-                                visibilityTime: 3000,
+                // Send different request method according to having pre-existing cart items
+                var data = {
+                    "cart_item":[
+                        {
+                            "product": props.route.params?.id,
+                            "pot": potID,
+                            "fertilizer": fertilizerID
+                        }
+                    ],
+                    "user": user_id
+                }
+                try{
+                    if (hasCartItem){
+                        try{
+                            await axios({
+                                method: 'put',
+                                url: constants.URL+'/api/cart/'+ user_id + "/",
+                                data: data
+                            }).then((response) => {
+                                Toast.show({
+                                    type: 'success', 
+                                    position: 'top', 
+                                    text1: 'Added to Cart!', 
+                                    visibilityTime: 3000,
+                                });
                             });
-                            console.log("Plant ID: "+props.route.params?.id+" "+"Pot ID: "+ potID + " Fertilizer ID: "+ fertilizerID);
-                            console.log(response)
-                        });
-                    } catch (error){
-                        console.log(error.response.data)
+                        } catch(error){
+                            //console.log(error)
+                        }
                     }
+                    else {
+                        try{
+                            await axios({
+                                method: 'post',
+                                url: constants.URL+'/api/cart/',
+                                data: data
+                            }).then((response) => {
+                                Toast.show({ 
+                                    type: 'success', 
+                                    position: 'top', 
+                                    text1: 'Added to Cart!', 
+                                    visibilityTime: 3000,
+                                });
+                                //console.log("Plant ID: "+props.route.params?.id+" "+"Pot ID: "+ potID + " Fertilizer ID: "+ fertilizerID);
+                                //console.log(response)
+                            });
+                        } catch (error){
+                            //console.log(error.response.data)
+                        }
+                    }
+                } catch(error){
+                   // console.log(error)
                 }
             } catch(error){
-                console.log(error)
+                //console.log(error.response.data)
             }
-        } catch(error){
+        }
+        else{
             Toast.show({
                 type: 'error',
                 position: 'top',
                 text1: 'Please login to proceed',
                 visibilityTime: 3000,
             });
-            console.log(error.response.data)
-        }
-        
+        }      
     }
     return (
         <ScrollView style={styles.container}>
@@ -151,7 +154,7 @@ const Product = (props) => {
                 style={styles.image}
                 source={{uri: props.route.params?.image}}
             />
-            <Divider style={{marginTop: 10, marginLeft: 10, marginRight: 10, color: 'black',}}/>
+            <Divider style={{marginTop: 10, marginLeft: 15, marginRight: 15, color: 'black',}}/>
             <Text style={styles.textTitle}>
                 {props.route.params?.name}
             </Text>
