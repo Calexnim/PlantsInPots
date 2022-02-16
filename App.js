@@ -9,6 +9,7 @@ import Notification from './app/screens/notification.js';
 import Cart from './app/screens/cart.js';
 import Register from './app/screens/register.js';
 import Product from './app/screens/single_product.js';
+import Checkout from './app/screens/checkout.js';
 import { renderNode } from 'react-native-elements/dist/helpers';
 import globals from './app/modules/globals.js';
 import { Text } from 'react-native';
@@ -46,88 +47,97 @@ const Stack = createNativeStackNavigator();
 //   );
 // }
 
-export default class App extends Component{
-  state = {
-    isLogin: false,
-  }
-  componentDidMount(){
-    globals.setLogin = () => {
-      this.setState({
-        isLogin: true
-      })
+export default class App extends Component {
+    state = {
+        isLogin: false,
     }
-    globals.setLogout = () => {
-      this.setState({
-        isLogin: false
-      })
-    }
-  }
-
-  render() {
-    return(
-      <NavigationContainer>
-        <Tab.Navigator 
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName;
-
-              if (route.name === 'HomeStack') {
-                iconName = 'home'
-              } else if (route.name === 'Notification') {
-                iconName = 'bell'
-              } else if (route.name === 'Cart') {
-                iconName = 'shopping-cart'
-              } else if (route.name === 'LoginStack' || route.name === 'ProfileStack') {
-                iconName = 'user'
-              } 
-              return <Icon
-                name={iconName}
-                type='font-awesome'
-                color={color}
-                size={size}
-              />;
-            },
-            tabBarActiveTintColor: '#6ea8a1',
-            tabBarInactiveTintColor: 'gray',
-          })}
-        >
-        {/* <Tab.Screen name="Home" component={Home}  /> */}
-        <Tab.Screen name="HomeStack" component={HomeStack} options={{title: "Home", headerShown: false}}/>
-        <Tab.Screen name="Notification" component={Notification} />
-        <Tab.Screen name="Cart" component={Cart} />
-        {
-          !this.state.isLogin? 
-          <Tab.Screen name="LoginStack" component={LoginStack} options={{title: "Login", headerShown: false }}/>:
-          <Tab.Screen name="ProfileStack" component={ProfileStack} options={{title: "Profile", headerShown: false }}/>
+    componentDidMount() {
+        globals.setLogin = () => {
+            this.setState({
+                isLogin: true
+            })
         }
-      </Tab.Navigator>
-      <Toast />
-    </NavigationContainer>
-    );
-  }
+        globals.setLogout = () => {
+            this.setState({
+                isLogin: false
+            })
+        }
+    }
+
+    render() {
+        return (
+            <NavigationContainer>
+                <Tab.Navigator
+                    screenOptions={({ route }) => ({
+                        tabBarIcon: ({ focused, color, size }) => {
+                            let iconName;
+
+                            if (route.name === 'HomeStack') {
+                                iconName = 'home'
+                            } else if (route.name === 'Notification') {
+                                iconName = 'bell'
+                            } else if (route.name === 'CartStack') {
+                                iconName = 'shopping-cart'
+                            } else if (route.name === 'LoginStack' || route.name === 'ProfileStack') {
+                                iconName = 'user'
+                            }
+                            return <Icon
+                                name={iconName}
+                                type='font-awesome'
+                                color={color}
+                                size={size}
+                            />;
+                        },
+                        tabBarActiveTintColor: '#6ea8a1',
+                        tabBarInactiveTintColor: 'gray',
+                    })}
+                >
+                    {/* <Tab.Screen name="Home" component={Home}  /> */}
+                    <Tab.Screen name="HomeStack" component={HomeStack} options={{ title: "Home", headerShown: false }} />
+                    <Tab.Screen name="Notification" component={Notification} />
+                    <Tab.Screen name="CartStack" component={CartStack} options={{title: "Cart", headerShown: false}} />
+                    {
+                        !this.state.isLogin ?
+                            <Tab.Screen name="LoginStack" component={LoginStack} options={{ title: "Login", headerShown: false }} /> :
+                            <Tab.Screen name="ProfileStack" component={ProfileStack} options={{ title: "Profile", headerShown: false }} />
+                    }
+                </Tab.Navigator>
+                <Toast />
+            </NavigationContainer>
+        );
+    }
 }
-function HomeStack(){
-  return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={Home}/>
-      <Stack.Screen name="Product" component={Product} />
-    </Stack.Navigator>
-  )
+function HomeStack() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Product" component={Product} />
+        </Stack.Navigator>
+    )
 }
 
-function LoginStack(){
-  return (
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-        <Stack.Screen name="Register" component={Register} />
-      </Stack.Navigator>
-  )
+function LoginStack() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+            <Stack.Screen name="Register" component={Register} />
+        </Stack.Navigator>
+    )
 }
 
-function ProfileStack(){
-  return(
-    <Stack.Navigator>
-      <Stack.Screen name="Profile" component={Profile} />
-    </Stack.Navigator>
-  )
+function CartStack() {
+    return(
+        <Stack.Navigator>
+            <Stack.Screen name="Cart" component={Cart}/>
+            <Stack.Screen name="Checkout" component={Checkout} />
+        </Stack.Navigator>
+    )
+}
+
+function ProfileStack() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Profile" component={Profile} />
+        </Stack.Navigator>
+    )
 }
