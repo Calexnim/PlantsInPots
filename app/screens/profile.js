@@ -14,7 +14,7 @@ componentWillUnmount(){
 logout = async() => {
  try{
   //  const token = AsyncStorage.removeItem('token')
-  const token = AsyncStorage.clear()
+  AsyncStorage.clear()
   console.log('token removed');
   globals.setLogout();
    
