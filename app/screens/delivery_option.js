@@ -15,7 +15,7 @@ const DeliveryOption = (props) => {
                 'product': item.product.id,
                 'pot': item.pot.id,
                 'fertilizer': item.fertilizer.id,
-                'sub_total': (parseFloat(item.product.price) + parseFloat(item.pot.price) + parseFloat(item.fertilizer.price)).toFixed(2)
+                'sub_total': ((parseFloat(item.product.price) + parseFloat(item.pot.price) + parseFloat(item.fertilizer.price)).toFixed(2))
             }
             temp_products.push(single_item)
         })
