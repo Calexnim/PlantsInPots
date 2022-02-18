@@ -41,7 +41,7 @@ export default class Login extends Component {
                 password: password,
             }
         }).then(function (response) {
-            console.log(response.data.token);
+            //console.log(response.data.token);
             // Store token using AsyncStorage
             const token = JSON.stringify(response.data.token)
             const user_id = JSON.stringify(response.data.user_id)
