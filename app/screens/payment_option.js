@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         margin: 20,
         fontSize: 18,
         fontWeight: '600',
-        color: 'black',
+        color: 'white',
     },
     textTitle: {
         margin: 10,
