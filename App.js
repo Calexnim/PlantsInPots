@@ -11,7 +11,9 @@ import Register from './app/screens/register.js';
 import Product from './app/screens/single_product.js';
 import PaymentOption from './app/screens/payment_option.js';
 import DeliveryOption from './app/screens/delivery_option.js';
+import OrderHistory from './app/screens/order_history.js';
 import Order from './app/screens/order.js';
+import SingleOrder from './app/screens/single_order.js';
 import Payment from './app/screens/payment.js';
 import { renderNode } from 'react-native-elements/dist/helpers';
 import globals from './app/modules/globals.js';
@@ -23,33 +25,6 @@ import { StackActions, NavigationActions } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
-// export function Account() {
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator>
-//         <Stack.Screen 
-//           name="App"
-//           component={App}
-//           options={{ headerShown: false}}
-//         />
-//         <Stack.Screen name="Register" component={Register} />
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   )
-// }
-
-// export default function App() {
-//   return (
-//     <NavigationContainer>
-//       <Tab.Navigator>
-//         <Tab.Screen name="Home" component={Home} />
-//         <Tab.Screen name="Notification" component={Notification} />
-//         <Tab.Screen name="Cart" component={Cart} />
-//         <Tab.Screen name="Login" component={Login}/>
-//       </Tab.Navigator>
-//     </NavigationContainer>
-//   );
-// }
 
 export default class App extends Component {
     state = {
@@ -148,6 +123,8 @@ function ProfileStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Profile" component={Profile} />
+            <Stack.Screen name="OrderHistory" component={OrderHistory} options={{title: 'Order History'}}/>
+            <Stack.Screen name="SingleOrder" component={SingleOrder} options={{title: 'Order'}} />
         </Stack.Navigator>
     )
 }
