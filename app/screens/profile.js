@@ -15,11 +15,11 @@ logout = async() => {
  try{
   //  const token = AsyncStorage.removeItem('token')
   AsyncStorage.clear()
-  console.log('token removed');
+  //console.log('token removed');
   globals.setLogout();
    
  }catch(e){
-   console.log(e)
+   //console.log(e)
  }
 }
   render() {
