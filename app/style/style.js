@@ -12,6 +12,8 @@ const externalStyle=StyleSheet.create({
     },
     input: {
         width: 350,
+        borderColor: 'black',
+        borderWidth: 1,
         height: 55,
         backgroundColor: 'white',
         margin: 10,
@@ -26,7 +28,8 @@ const externalStyle=StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        backgroundColor: 'white',
     },
 })
 
