@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, ScrollView} from 'react-native';
+import { View, StyleSheet, Text, TouchableOpacity, ScrollView, ActivityIndicator, Alert} from 'react-native';
 import axios from 'axios';
 import constants from '../modules/constants';
 import FastImage from 'react-native-fast-image';
 import { Divider } from 'react-native-elements/dist/divider/Divider';
+import { StackActions, useNavigation } from '@react-navigation/native';
 
 
 const Order = (props) => {
     const [responseData, setResponseData] = useState();
     const [orderItem, setOrderItem] = useState([]);
+    const navigation = useNavigation();
+    var hasUnsavedChanges = true;
     useEffect(() => {
         async function fetchOrder() {
             try {
@@ -26,7 +29,39 @@ const Order = (props) => {
         }
         fetchOrder();
     }, []);
+
     
+
+    useEffect(
+        () =>
+          navigation.addListener('beforeRemove', (e) => {
+            if (hasUnsavedChanges) {
+                // Prevent default behavior of leaving the screen
+                e.preventDefault();
+        
+                // Prompt the user before leaving the screen
+                Alert.alert(
+                  'Do you want to leave?',
+                  'Confirm go back?',
+                  [
+                    { text: "Cancel", style: 'cancel', onPress: () => {} },
+                    {
+                      text: 'Go Back',
+                      style: 'destructive',
+                      // If the user confirmed, then we dispatch the action we blocked earlier
+                      // This will continue the action that had triggered the removal of the screen
+                      onPress: () => [
+                        hasUnsavedChanges = false,
+                        navigation.dispatch(StackActions.popToTop()),
+                      ] 
+                    },
+                  ]
+                );
+            }
+          }),
+        [hasUnsavedChanges]
+      );
+
     renderOrderItems = () => {
         return orderItem.map((item, index) => {
             return (
@@ -97,7 +132,7 @@ const Order = (props) => {
                             Order Date: {responseData.order_date}
                         </Text>
                     </View> :
-                    null
+                    <ActivityIndicator />
                 }
                 <Divider style={{marginVertical: 5, marginHorizontal: 10, color: 'black'}}/>
                 {renderOrderItems()}
@@ -110,7 +145,7 @@ const Order = (props) => {
                             <Text style={styles.textTotal}>
                             RM {responseData.total}
                             </Text> :
-                            null
+                            <ActivityIndicator/>
                         }
                     </View>
                 </View>
