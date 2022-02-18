@@ -14,12 +14,13 @@ const Cart = (props) => {
     const navigation = useNavigation()
     const [cartItem, setCartItem] = useState([]);
     var total = [];
+    var user_id;
     useFocusEffect(
         useCallback(() => {
             let isActive = true;
             async function fetchCart() {
                 try{
-                    var user_id = await AsyncStorage.getItem('user_id');
+                    user_id = await AsyncStorage.getItem('user_id');
                 } catch(error){
                     console.log(error)
                 }
@@ -34,7 +35,8 @@ const Cart = (props) => {
                             setCartItem(response.data.cart_item)
                         });
                     } catch (error) {
-                        console.log(error);
+                        // Set cartItem empty if 404
+                        setCartItem([])
                     }
                 }
                 // update cart state to empty array if not login
@@ -134,7 +136,10 @@ const Cart = (props) => {
                 onPress: () => console.log("Cancel Pressed"),
                 style: "cancel"
               },
-              { text: "OK", onPress: () => navigation.navigate('Checkout')}
+              { text: "OK", onPress: () => navigation.navigate('PaymentOption', {
+                  total: total.reduce((previousValue, currentValue) => previousValue + currentValue, 0).toFixed(2),
+                  cart_item: cartItem,
+              })}
             ]
           );
     }
