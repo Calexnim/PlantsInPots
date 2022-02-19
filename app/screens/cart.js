@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Text, View, StyleSheet, ScrollView, Alert } from 'react-native';
+import { Text, View, StyleSheet, ScrollView, Alert, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import constants from '../modules/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -156,7 +156,7 @@ const Cart = (props) => {
         else {
             return (
                 <ScrollView>
-                    {renderCartItems()}
+                    { cartItem ? renderCartItems() : <ActivityIndicator/>}
                     <View style={styles.totalView}>
                         <View style={{marginRight: 10, marginLeft: 10, marginTop: 10, alignContent: 'center'}}>
                             <Text style={{ color: 'grey', fontSize: 14, textAlign: 'left'}}>
