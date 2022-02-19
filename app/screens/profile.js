@@ -47,7 +47,7 @@ const Profile = (props) => {
             //console.log(e)
         }
     }
-
+    
     return (
         <View style={styles.container}>
             <View style={styles.innerContainer}>
