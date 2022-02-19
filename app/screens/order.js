@@ -19,7 +19,6 @@ const Order = (props) => {
                     method: 'get',
                     url: constants.URL + '/api/order/' + props.route.params?.order_id
                 }).then((response) => {
-                    console.log(response.data)
                     setResponseData(response.data)
                     setOrderItem(response.data.order_item)
                 });
