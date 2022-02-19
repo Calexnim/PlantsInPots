@@ -28,7 +28,6 @@ const OrderHistory = (props) => {
                             method: 'get',
                             url: constants.URL + '/api/order/user/' + user_id
                         }).then((response) => {
-                            console.log(response.data)
                             setOrderHistoryItem(response.data)
                         });
                     } catch (error) {
