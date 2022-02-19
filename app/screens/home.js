@@ -36,8 +36,9 @@ export default class Home extends Component {
     componentDidMount = async () => {
         try {
             const value = await AsyncStorage.getItem('token')
+            globals.user_id = await AsyncStorage.getItem('user_id')
             if (value !== null) {
-                console.log(value != null ? JSON.parse(value) : null)
+                // console.log(value != null ? JSON.parse(value) : null)
                 globals.setLogin();
             }
             await axios({
