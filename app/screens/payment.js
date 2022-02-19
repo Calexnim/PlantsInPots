@@ -25,7 +25,7 @@ const Payment = (props) => {
                 }
                 else{
                     navigation.navigate('DeliveryOption', {
-                        payment_options: props.route.params?.payment_option,
+                        payment_option: props.route.params?.payment_option,
                         items: props.route.params?.items,
                         total: props.route.params?.total,
                         name: name,
