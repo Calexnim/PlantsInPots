@@ -39,6 +39,7 @@ export default class Login extends Component {
             data: {
                 username: email,
                 password: password,
+                firebase_token: globals.firebaseToken
             }
         }).then(function (response) {
             //console.log(response.data.token);
@@ -46,20 +47,14 @@ export default class Login extends Component {
             const token = JSON.stringify(response.data.token)
             const user_id = JSON.stringify(response.data.user_id)
             try {
-                AsyncStorage.setItem('user_id', user_id).then(
-                    () => console.log('user_id saved')
-                ).catch((e) => {
-                    console.log(e)
-                })
-                AsyncStorage.setItem('token', token).then(
-                    () => console.log('token saved')
-                ).catch((e) => {
-                    console.log(e);
-                })
+                AsyncStorage.setItem('user_id', user_id)
+                AsyncStorage.setItem('token', token)
                 globals.setLogin();
             } catch (e) {
                 console.log(e)
             }
+        }).then(async function (){
+            globals.user_id = await AsyncStorage.getItem('user_id')
         }).catch((error) => {
             Toast.show({
                 type: 'error',
