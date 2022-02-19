@@ -4,10 +4,14 @@ import axios from 'axios';
 import constants from '../modules/constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import globals from '../modules/globals.js';
+import Geolocation from '@react-native-community/geolocation';
+import { Alert } from 'react-native';
 
 const DeliveryOption = (props) => {
     const [orderItems, setOrderItems] = useState([])
     var temp_products = []
+    const [coordinates, setCoordinates] = useState([])
     const navigation = useNavigation();
     useEffect(() => {
         props.route.params?.items.map((item, index) => {
@@ -20,28 +24,78 @@ const DeliveryOption = (props) => {
             temp_products.push(single_item)
         })
         setOrderItems(temp_products)
+        Geolocation.getCurrentPosition(info => setCoordinates(info))
     }, [])
 
-    deliveryForService = () => {
-        console.log("delivery for service")
-    }
-    onSitePickup = async () => {
-        try{
-            user_id = await AsyncStorage.getItem('user_id');
+    saveOrder = async (delivery) => {
+        var data = {};
+        if (delivery) {
+            Alert.alert(
+                "Pin location",
+                "Pin your current location?",
+                [
+                  {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                  },
+                  { text: "Pin", onPress: async () => {
+                        data = {
+                            "order_item": orderItems,
+                            "name": props.route.params?.name,
+                            "email": props.route.params?.email,
+                            "phone": props.route.params?.phone,
+                            "total": props.route.params?.total,
+                            "payment_option": props.route.params?.payment_option,
+                            "delivery_option": "delivery",
+                            "user": globals.user_id,
+                            'latitude': coordinates.coords.latitude,
+                            'longtitude': coordinates.coords.longitude
+                        }
+                        try{
+                            await axios({
+                                method: 'post',
+                                url: constants.URL + '/api/order/',
+                                data: data
+                            }).then((response) => {
+                                navigation.navigate('Order', {
+                                    order_id: response.data.id
+                                })
+                            });
+                            // Delete Cart if order is created
+                            try{
+                                await axios({
+                                    method: 'delete',
+                                    url: constants.URL + '/api/cart/' + globals.user_id + '/',
+                                }).then((response) => {
+                                    console.log(response.data)
+                                });
+                            } catch(error) {
+                                console.log(error.response)
+                            }
+                        } catch(error){
+                            console.log(error.response.data)
+                        }  
+                  }}
+                ]
+              );      
+        }
+        else{
+            data = {
+                "order_item": orderItems,
+                "name": props.route.params?.name,
+                "email": props.route.params?.email,
+                "phone": props.route.params?.phone,
+                "total": props.route.params?.total,
+                "payment_option": props.route.params?.payment_option,
+                "delivery_option": "pickup",
+                "user": globals.user_id
+            }
             try{
                 await axios({
                     method: 'post',
                     url: constants.URL + '/api/order/',
-                    data: {
-                        "order_item": orderItems,
-                        "name": props.route.params?.name,
-                        "email": props.route.params?.email,
-                        "phone": props.route.params?.phone,
-                        "total": props.route.params?.total,
-                        "payment_option": props.route.params?.payment_option,
-                        "delivery_option": "pickup",
-                        "user": user_id
-                    }
+                    data: data
                 }).then((response) => {
                     navigation.navigate('Order', {
                         order_id: response.data.id
@@ -51,7 +105,7 @@ const DeliveryOption = (props) => {
                 try{
                     await axios({
                         method: 'delete',
-                        url: constants.URL + '/api/cart/' + user_id + '/',
+                        url: constants.URL + '/api/cart/' + globals.user_id + '/',
                     }).then((response) => {
                         console.log(response.data)
                     });
@@ -59,12 +113,16 @@ const DeliveryOption = (props) => {
                     console.log(error.response)
                 }
             } catch(error){
-                console.log(error.response)
-            }
-        } catch(error){
-            console.log(error.response)
+                console.log(error.response.data)
+            }  
         }
-        
+    }
+
+    deliveryForService = async () => {
+        saveOrder(delivery=true)
+    }
+    onSitePickup = async () => {
+        saveOrder(delivery=false)
     }
     return(
         <View>
@@ -90,7 +148,7 @@ const DeliveryOption = (props) => {
                     </Text>
                 </TouchableOpacity>
             </View>
-            </View> 
+        </View> 
     )
 }
 
