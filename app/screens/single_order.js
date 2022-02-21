@@ -105,6 +105,9 @@ const SingleOrder = (props) => {
                         <Text style={styles.textDetail}>
                             Order Date: {responseData.order_date}
                         </Text>
+                        <Text style={styles.textDetail}>
+                            Delivery Date: {responseData.delivery_date? responseData.delivery_date : '-'}
+                        </Text>
                     </View> :
                     <ActivityIndicator />
                 }
@@ -124,7 +127,7 @@ const SingleOrder = (props) => {
                     </View>
                 </View>
             </View>
-            </ScrollView>
+        </ScrollView>
     )
 }
 const styles = StyleSheet.create({
