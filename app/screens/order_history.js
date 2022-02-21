@@ -89,10 +89,14 @@ const OrderHistory = (props) => {
     }
     return (
         <ScrollView>
+             
             {orderHistoryItem ?
                 renderOrderHistory() :
                 <ActivityIndicator />
             }
+            <Text style={{color: 'red', margin: 5, textAlign: 'center'}}>
+                *Email your payment together with Order ID to alexanderchai416@gmail.com within 3 days or the order will be cancel
+            </Text>
         </ScrollView>
     );
 }
