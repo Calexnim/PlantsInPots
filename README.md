@@ -1,5 +1,5 @@
-# Plants-it-pots front-end.
-This project is built with React Native on Android platform.
+# Plants-in-pots front-end.
+This is the front-end for Plants in Pots project. It is built with React Native on Android platform.
 The objectives for this project is as below:
 
 <h3>To develop a mobile app that allows:-</h3>
