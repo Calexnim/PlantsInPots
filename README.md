@@ -1,6 +1,22 @@
 # Plants-it-pots front-end.
 This project is built with React Native on Android platform.
+The objectives for this project is as below:
 
+<h3>To develop a mobile app that allows:-</h3>
+<ul>
+  <li>the system to send tips and suggestions based on the plants customers have purchased.</li>
+  <li>customers to customize the plants accessories such as pot types and fertilizers before purchasing.</li>
+  <li>customers to pin-point their current location for delivery.</li>
+  <li>customers to view their purchase history.</li>
+</ul>
+
+<h3>To develop a website that allows admin to:-</h3>
+<ul>
+  <li>view monthly sales and generate reports.</li>
+  <li>sort products into categories.</li>
+  <li>manage the products.</li>
+</ul>
+<br>
 Images below show the mobile application's function with description:
 <br> <br>
 <h2>Home Screen (shows all plants):</h2>
