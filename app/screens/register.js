@@ -1,98 +1,138 @@
 // SignUp.js
-import { NavigationContainer } from '@react-navigation/native'
 import React from 'react'
 import {
-  View,
-  TextInput,
-  StyleSheet
+    View,
+    TextInput,
 } from 'react-native'
 import {
-  Button,
+    Button,
 } from 'react-native-elements'
+import externalStyle from '../style/style'
+import axios from 'axios';
+import constants from '../modules/constants';
+import { Toast } from 'react-native-toast-message/lib/src/Toast';
+import globals from '../modules/globals.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default class SignUp extends React.Component {
-  state = {
-    username: '', password: '', email: '', phone_number: ''
-  }
-  onChangeText = (key, val) => {
-    this.setState({ [key]: val })
-  }
-  signUp = async () => {
-    const { username, password, email, phone_number } = this.state
-    // try {
-    //   // here place your signup logic
-    //   console.log('user successfully signed up!: ', success)
-    // } catch (err) {
-    //   console.log('error signing up: ', err)
-    // }
-    navigation.navigate('home')
-  }
- 
-  render() {
-    return (
-      <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          placeholder='Username'
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('username', val)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Password'
-          secureTextEntry={true}
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          onChangeText={val => this.onChangeText('password', val)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Email'
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          keyboardType='email-address'
-          onChangeText={val => this.onChangeText('email', val)}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder='Phone Number'
-          autoCapitalize="none"
-          placeholderTextColor='white'
-          keyboardType="phone-pad"
-          onChangeText={val => this.onChangeText('phone_number', val)}
-        />
-        <Button
-          buttonStyle={
-              {
-                  backgroundColor: '#2022df',
-                  margin: 10,
-              }
-          }
-          type="solid"
-          title='Sign Up'
-          onPress={this.signUp}
-        />
-      </View>
-    )
-  }
+export default class Register extends React.Component {
+    state = {
+        email: '', username: '', password: '', password1: ''
+    }
+    onChangeText = (key, val) => {
+        this.setState({ [key]: val })
+    }
+    signUp = async () => {
+        const {
+            email,
+            username,
+            password,
+            password1,
+        } = this.state
+        if (email && username && password && password1) {
+            await axios({
+                method: 'post',
+                url: constants.URL + '/api/account/register',
+                data: {
+                    email: email,
+                    username: username,
+                    password: password,
+                    password1: password1,
+                    firebase_token: globals.firebaseToken
+                }
+            }).then(function (response) {
+                console.log(response.data);
+                // Check if the account is created and token is return
+                if (response.data.token) {
+                    Toast.show({
+                        type: 'success',
+                        position: 'bottom',
+                        text1: "Account Created!",
+                    })
+                    globals.setLogin();
+                    const token = JSON.stringify(response.data.token)
+                    const user_id = JSON.stringify(response.data.user_id)
+                    try {
+                        AsyncStorage.setItem('user_id', user_id)
+                        AsyncStorage.setItem('token', token)
+
+                        globals.setLogin();
+                    } catch (e) {
+                        console.log(e)
+                    }
+                }
+                else if (response.data.email || response.data.username) {
+                    Toast.show({
+                        type: 'error',
+                        position: 'bottom',
+                        text1: response.data.email ? response.data.email : response.data.username,
+                    })
+                }
+            }).then(async function (){
+                globals.user_id = await AsyncStorage.getItem('user_id')
+            }).catch((error) => {
+                console.log(error.response.data.password);
+                // Display Error for different password
+                Toast.show({
+                    type: 'error',
+                    position: 'bottom',
+                    text1: error.response.data.password,
+                })
+            })
+        }
+        // check if fields are empty
+        else {
+            Toast.show({
+                type: 'error',
+                position: 'bottom',
+                text1: 'Please insert all the fields',
+            })
+        }
+    }
+
+    render() {
+        return (
+            <View style={externalStyle.container}>
+                <TextInput
+                    style={externalStyle.input}
+                    placeholder='Email'
+                    autoCapitalize="none"
+                    placeholderTextColor='grey'
+                    keyboardType='email-address'
+                    onChangeText={val => this.onChangeText('email', val)}
+                />
+                <TextInput
+                    style={externalStyle.input}
+                    placeholder='Username'
+                    autoCapitalize="none"
+                    placeholderTextColor='grey'
+                    onChangeText={val => this.onChangeText('username', val)}
+                />
+                <TextInput
+                    style={externalStyle.input}
+                    placeholder='Password'
+                    secureTextEntry={true}
+                    autoCapitalize="none"
+                    placeholderTextColor='grey'
+                    onChangeText={val => this.onChangeText('password', val)}
+                />
+                <TextInput
+                    style={externalStyle.input}
+                    placeholder='Re-enter password'
+                    secureTextEntry={true}
+                    autoCapitalize="none"
+                    placeholderTextColor='grey'
+                    onChangeText={val => this.onChangeText('password1', val)}
+                />
+                <Button
+                    buttonStyle={externalStyle.button}
+                    type="solid"
+                    title='Sign Up'
+                    onPress={
+                        this.signUp
+                    }
+                />
+            </View>
+        )
+    }
 }
 
-const styles = StyleSheet.create({
-  input: {
-    width: 350,
-    height: 55,
-    backgroundColor: '#6ea8a1',
-    margin: 10,
-    padding: 8,
-    color: 'white',
-    borderRadius: 14,
-    fontSize: 18,
-    fontWeight: '500',
-  },
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-})
